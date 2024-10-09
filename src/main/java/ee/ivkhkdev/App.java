@@ -1,16 +1,26 @@
 package ee.ivkhkdev;
 
+import ee.ivkhkdev.model.Book;
+import ee.ivkhkdev.repository.BookRepository;
+import ee.ivkhkdev.services.BookService;
+import ee.ivkhkdev.services.helpers.BookDataInput;
+import ee.ivkhkdev.storage.StorageBook;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
-
+    public static List<Book> books;
     private Scanner scanner = new Scanner(System.in);
-
+    private BookRepository bookRepository = new StorageBook();
+    public App() {
+        this.books = bookRepository.loadBooks();
+    }
     public void run() {
         boolean repeat = true;
-    }
+
         System.out.println("---------- JKTV23 библиотека ----------");
-        do {
+        do{
         System.out.println("Список задач: ");
         System.out.println();
         System.out.println("0. Выход из программы");
@@ -28,6 +38,8 @@ public class App {
                 repeat = false;
                 break;
             case 1:
+                BookService bookService = new BookService(scanner);
+                bookService.addBook(new BookDataInput());
                 break;
             case 2:
                 break;
@@ -42,7 +54,7 @@ public class App {
             default:
                 System.out.println("Выберите номер задачи из списка!");
                 break;
-        } while (repeat);
+        }} while (repeat);
         System.out.println();
         System.out.println("До свидания!");
     }
