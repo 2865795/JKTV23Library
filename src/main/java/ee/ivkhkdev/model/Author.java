@@ -18,6 +18,14 @@ public class Author {
         this.lastname = lastname;
     }
 
+    public static long getCount() {
+        return count;
+    }
+
+    public static void setCount(long count) {
+        Author.count = count;
+    }
+
     public Long getId() {
         return id;
     }

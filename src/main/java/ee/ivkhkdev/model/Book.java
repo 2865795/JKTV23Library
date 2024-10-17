@@ -60,12 +60,14 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return publishedYear == book.publishedYear && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.deepEquals(authors.toArray(), book.authors.toArray());
+        return publishedYear == book.publishedYear && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Arrays.equals(authors.toArray(), book.authors.toArray());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, Arrays.hashCode(authors.toArray()), publishedYear);
+        int result = Objects.hash(id, title, publishedYear);
+        result = 31 * result + Arrays.hashCode(authors.toArray());
+        return result;
     }
 
     @Override
