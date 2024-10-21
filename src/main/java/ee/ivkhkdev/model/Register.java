@@ -8,17 +8,17 @@ public class Register {
     private UUID id;
     private User user;
     private Book book;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate BookBorrowDate;
+    private LocalDate returnBookDate;
 
     public Register() {
     }
 
-    public Register(User user, Book book, LocalDate startDate, LocalDate endDate) {
+    public Register(User user, Book book, LocalDate BookBorrowDate, LocalDate returnBookDate) {
         this.user = user;
         this.book = book;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.BookBorrowDate = BookBorrowDate;
+        this.returnBookDate = returnBookDate;
     }
 
     public UUID getId() {
@@ -45,20 +45,20 @@ public class Register {
         this.book = book;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getBookBorrowDate() {
+        return BookBorrowDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setBookBorrowDate(LocalDate bookBorrowDate) {
+        this.BookBorrowDate = bookBorrowDate;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getReturnBookDate() {
+        return returnBookDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setReturnBookDate(LocalDate returnBookDate) {
+        this.returnBookDate = returnBookDate;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Register {
         if (o == null || getClass() != o.getClass()) return false;
 
         Register register = (Register) o;
-        return Objects.equals(id, register.id) && Objects.equals(user, register.user) && Objects.equals(book, register.book) && Objects.equals(startDate, register.startDate) && Objects.equals(endDate, register.endDate);
+        return Objects.equals(id, register.id) && Objects.equals(user, register.user) && Objects.equals(book, register.book) && Objects.equals(BookBorrowDate, register.BookBorrowDate) && Objects.equals(returnBookDate, register.returnBookDate);
     }
 
     @Override
@@ -75,8 +75,8 @@ public class Register {
         int result = Objects.hashCode(id);
         result = 31 * result + Objects.hashCode(user);
         result = 31 * result + Objects.hashCode(book);
-        result = 31 * result + Objects.hashCode(startDate);
-        result = 31 * result + Objects.hashCode(endDate);
+        result = 31 * result + Objects.hashCode(BookBorrowDate);
+        result = 31 * result + Objects.hashCode(returnBookDate);
         return result;
     }
 
@@ -86,8 +86,8 @@ public class Register {
         sb.append("id=").append(id);
         sb.append(", user=").append(user);
         sb.append(", book=").append(book);
-        sb.append(", startDate=").append(startDate);
-        sb.append(", endDate=").append(endDate);
+        sb.append(", startDate=").append(BookBorrowDate);
+        sb.append(", endDate=").append(returnBookDate);
         sb.append('}');
         return sb.toString();
     }

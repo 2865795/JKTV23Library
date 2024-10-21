@@ -2,7 +2,7 @@ package ee.ivkhkdev.helpers;
 
 import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
-import ee.ivkhkdev.tools.Input;
+import ee.ivkhkdev.interfaces.Input;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,34 +1,43 @@
 package ee.ivkhkdev;
 
-import ee.ivkhkdev.helpers.AppHelperUserDataInput;
+import ee.ivkhkdev.helpers.AppHelperRegisterInput;
+import ee.ivkhkdev.helpers.AppHelperUserInput;
 import ee.ivkhkdev.model.Book;
+import ee.ivkhkdev.model.Register;
 import ee.ivkhkdev.model.User;
 import ee.ivkhkdev.repository.Repository;
 import ee.ivkhkdev.services.BookService;
 import ee.ivkhkdev.helpers.AppHelperBookInput;
+import ee.ivkhkdev.services.RegisterService;
 import ee.ivkhkdev.services.UserService;
 import ee.ivkhkdev.storages.Storage;
-import ee.ivkhkdev.tools.Input;
+import ee.ivkhkdev.interfaces.Input;
 
 public class App {
-    Repository<Book> repositoryBook;
-    Repository<User> repositoryUser;
-
     private final Input input;
-    private BookService bookService;
-    private UserService userService;
-    private AppHelperBookInput appHelperBookInput;
-    private AppHelperUserDataInput appHelperUserDataInput;
+    private final Repository<Book> repositoryBook;
+    private final Repository<User> repositoryUser;
+    private final Repository<Register> repositoryRegister;
+
+    private final BookService bookService;
+    private final UserService userService;
+    private final RegisterService registerService;
+    private final AppHelperBookInput appHelperBookInput;
+    private final AppHelperUserInput appHelperUserInput;
+    private final AppHelperRegisterInput appHelperRegisterInput;
 
 
     public App(Input input) {
         this.input = input;
-        repositoryBook = new Storage<Book>("books");
-        repositoryUser = new Storage<User>("users");
-        this.bookService = new BookService(input,repositoryBook);
-        this.userService = new UserService(input,repositoryUser);
+        this.repositoryBook = new Storage<>("books");
+        this.repositoryUser = new Storage<>("users");
+        this.repositoryRegister = new Storage<>("register");
         this.appHelperBookInput = new AppHelperBookInput();
-        this.appHelperUserDataInput = new AppHelperUserDataInput();
+        this.appHelperUserInput = new AppHelperUserInput();
+        this.appHelperRegisterInput = new AppHelperRegisterInput();
+        this.bookService = new BookService(input, appHelperBookInput, repositoryBook);
+        this.userService = new UserService(input, appHelperUserInput, repositoryUser);
+        this.registerService = new RegisterService(input, repositoryRegister, appHelperRegisterInput);
     }
 
 
@@ -52,24 +61,36 @@ public class App {
                     repeat = false;
                     break;
                 case 1:
-                    if(bookService.addBook(new AppHelperBookInput())){
+                    if(bookService.addBook()){
                         System.out.println("Книга добавлена");
+                    } else {
+                        System.out.println("Книгу добавить не удалось");
                     }
                     break;
                 case 2:
-                    if(userService.addUser(new AppHelperUserDataInput())){
+                    if(userService.addUser()){
                         System.out.println("Читатель добавлен");
+                    } else {
+                        System.out.println("Читателя добавить не удалось");
                     }
                     break;
                 case 3:
-                    bookService.books(appHelperBookInput, repositoryBook, appHelperBookInput);
+                    bookService.books(repositoryBook);
                     break;
                 case 4:
+                    userService.users(repositoryUser);
                     break;
                 case 5:
-
+                    if (registerService.bookBorrow(userService, bookService)) {
+                        System.out.println("Книга выдана");
+                    } else {
+                        System.out.println("Книгу выдать не удалось");
+                    }
                     break;
                 case 6:
+                    if (registerService.returnBook()) {
+
+                    }
                     break;
                 default:
                     System.out.println("Выберите номер задачи из списка!");
