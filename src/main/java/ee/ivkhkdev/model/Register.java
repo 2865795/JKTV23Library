@@ -1,10 +1,11 @@
 package ee.ivkhkdev.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Register {
+public class Register  implements Serializable {
     private UUID id;
     private User user;
     private Book book;

@@ -1,33 +1,37 @@
 package ee.ivkhkdev.services;
 
 import ee.ivkhkdev.helpers.AppHelperUserInput;
-import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.model.User;
 import ee.ivkhkdev.repository.Repository;
 import ee.ivkhkdev.interfaces.Input;
+
+import java.util.List;
 
 public class UserService {
     private final Input input;
     private final AppHelperUserInput appHelperUserInput;
     private final Repository<User> repository;
+    private final List<User> users;
 
-    public UserService(Input input, AppHelperUserInput appHelperUserInput, Repository<User> repository) {
+    public UserService(List<User> users, Input input, AppHelperUserInput appHelperUserInput, Repository<User> repository) {
+        this.users = users;
         this.input = input;
-        this.appHelperUserInput = appHelperUserInput;
         this.repository = repository;
+        this.appHelperUserInput = appHelperUserInput;
     }
     public boolean addUser(){
         User user = appHelperUserInput.createUser(input);
         if(user != null){
-            repository.save(user);
+            users.add(user);
+            repository.save(users);
             return true;
         }else{
             return false;
         }
     }
 
-    public void users(Repository<User> repositoryUser) {
-        appHelperUserInput.printUsers(repositoryUser.getEntities());
+    public void users(List<User> users) {
+        appHelperUserInput.printUsers(users);
     }
 
     public Repository<User> getRepository() {

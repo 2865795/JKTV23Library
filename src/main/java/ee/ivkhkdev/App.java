@@ -13,9 +13,14 @@ import ee.ivkhkdev.services.UserService;
 import ee.ivkhkdev.storages.Storage;
 import ee.ivkhkdev.interfaces.Input;
 
+import java.util.List;
+
 public class App {
+    List<Book> books;
+    List<User> users;
+    List<Register> registers;
     private final Input input;
-    private final Repository<Book> repositoryBook;
+    private final Repository<Book> bookRepository;
     private final Repository<User> repositoryUser;
     private final Repository<Register> repositoryRegister;
 
@@ -29,15 +34,18 @@ public class App {
 
     public App(Input input) {
         this.input = input;
-        this.repositoryBook = new Storage<>("books");
+        this.bookRepository = new Storage<>("books");
         this.repositoryUser = new Storage<>("users");
         this.repositoryRegister = new Storage<>("register");
         this.appHelperBookInput = new AppHelperBookInput();
         this.appHelperUserInput = new AppHelperUserInput();
         this.appHelperRegisterInput = new AppHelperRegisterInput();
-        this.bookService = new BookService(input, appHelperBookInput, repositoryBook);
-        this.userService = new UserService(input, appHelperUserInput, repositoryUser);
-        this.registerService = new RegisterService(input, repositoryRegister, appHelperRegisterInput);
+        books = bookRepository.load();
+        users = repositoryUser.load();
+        this.bookService = new BookService(books, input, appHelperBookInput, bookRepository);
+        this.userService = new UserService(users, input, appHelperUserInput, repositoryUser);
+        this.registerService = new RegisterService(books, users, registers, input, repositoryRegister, appHelperRegisterInput);
+        registers = repositoryRegister.load();
     }
 
 
@@ -75,21 +83,23 @@ public class App {
                     }
                     break;
                 case 3:
-                    bookService.books(repositoryBook);
+                    bookService.books(books);
                     break;
                 case 4:
-                    userService.users(repositoryUser);
+                    userService.users(users);
                     break;
                 case 5:
-                    if (registerService.bookBorrow(userService, bookService)) {
+                    if (registerService.bookBorrow(books, userService, bookService)) {
                         System.out.println("Книга выдана");
                     } else {
                         System.out.println("Книгу выдать не удалось");
                     }
                     break;
                 case 6:
-                    if (registerService.returnBook()) {
-
+                    if (registerService.returnBook(input, registers)) {
+                        System.out.println("Книга возвращена");
+                    } else {
+                        System.out.println("Книгу вернуть не удалось");
                     }
                     break;
                 default:

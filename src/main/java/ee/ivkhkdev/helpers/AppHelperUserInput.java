@@ -26,7 +26,7 @@ public class AppHelperUserInput {
         } else {
             System.out.println(" --- Список читателей --- ");
             for (int i = 0; i < entities.size(); i++) {
-                System.out.printf("%d. %s. %s. %s. s%n",
+                System.out.printf("%d. %s. %s. %s. %s%n",
                         i + 1,
                         entities.get(i).getFirstname(),
                         entities.get(i).getLastname(),
