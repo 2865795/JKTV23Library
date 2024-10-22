@@ -21,7 +21,7 @@ public class BookService {
     }
 
     public boolean addBook(){
-        Book book = appHelperBookInput.createBook(input);
+        Book book = appHelperBookInput.createBook();
         if(book != null) {
             books.add(book);
             repository.save(books);
@@ -31,8 +31,8 @@ public class BookService {
         }
     }
 
-    public void books(List<Book> books) {
-        appHelperBookInput.printBooks(books);
+    public void books() {
+        appHelperBookInput.printBooks();
     }
 
     public Repository<Book> getRepository() {

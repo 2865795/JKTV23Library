@@ -51,14 +51,6 @@ public class Storage<T> implements Repository<T> {
         return new ArrayList<>();
     }
 
-//    public List<T> getEntities() {
-//        return entities;
-//    }
-//
-//    public void setUsers(List<T> entities) {
-//        this.entities = entities;
-//    }
-
     public String getFileName() {
         return fileName;
     }
