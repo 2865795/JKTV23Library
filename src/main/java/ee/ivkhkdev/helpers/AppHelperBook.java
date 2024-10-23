@@ -4,28 +4,28 @@ import ee.ivkhkdev.model.Author;
 import ee.ivkhkdev.model.Book;
 import ee.ivkhkdev.interfaces.Input;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class AppHelperBookInput {
+public class AppHelperBook implements AppHelper<Book> {
     private final Input input;
     private final List<Book> books;
-    private final AppHelperAuthorInput appHelperAuthorInput;
+    private final AppHelper<Author> appHelperAuthor;
 
-    public AppHelperBookInput(Input input, List<Book> books, AppHelperAuthorInput appHelperAuthorInput) {
+    public AppHelperBook(Input input, List<Book> books, AppHelper<Author> appHelperAuthor) {
         this.input = input;
         this.books = books;
-        this.appHelperAuthorInput = appHelperAuthorInput;
+        this.appHelperAuthor = appHelperAuthor;
     }
-    public Book createBook(){
+    @Override
+    public Book create(){
         try {
             System.out.println("===== Новая книга =====");
             Book book = new Book();
             System.out.print("Название книги: ");
             book.setTitle(input.nextLine());
             System.out.print("Авторы: ");
-            appHelperAuthorInput.printAuthors();
+            appHelperAuthor.printList();
             System.out.println("Нужные авторы есть в списке ( 0 - нет; 1 - да)");
             String answer = input.nextLine();
             if (Objects.equals(answer, "0")) {
@@ -36,7 +36,7 @@ public class AppHelperBookInput {
             for (int i = 0; i < countAuthors; i++){
                 System.out.printf("Автор %d (выберите из списка):%n", i+1);
                 int numberAuthors = Integer.parseInt(input.nextLine());
-                book.getAuthors().add(appHelperAuthorInput.getAuthors().get(numberAuthors-1));
+                book.getAuthors().add(appHelperAuthor.getList().get(numberAuthors-1));
             }
             System.out.print("Год публикации: ");
             book.setPublishedYear(Integer.parseInt(input.nextLine()));
@@ -45,8 +45,8 @@ public class AppHelperBookInput {
             return null;
         }
     }
-
-    public void printBooks() {
+    @Override
+    public void printList() {
         if (books.isEmpty()){
             System.out.println(" --- Список пуст --- ");
         } else {
@@ -65,5 +65,10 @@ public class AppHelperBookInput {
             }
             System.out.println(" --- Конец списка --- ");
         }
+    }
+
+    @Override
+    public List<Book> getList() {
+        return books;
     }
 }

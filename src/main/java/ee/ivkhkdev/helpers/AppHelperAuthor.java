@@ -5,16 +5,17 @@ import ee.ivkhkdev.model.Author;
 
 import java.util.List;
 
-public class AppHelperAuthorInput {
+public class AppHelperAuthor implements AppHelper<Author> {
     private final Input input;
     private final List<Author> authors;
 
-    public AppHelperAuthorInput(Input input, List<Author> authors) {
+    public AppHelperAuthor(Input input, List<Author> authors) {
         this.input = input;
         this.authors = authors;
     }
 
-    public Author createAuthor(){
+    @Override
+    public Author create(){
         Author author = new Author();
         System.out.print("Имя: ");
         author.setFirstname(input.nextLine());
@@ -22,7 +23,8 @@ public class AppHelperAuthorInput {
         author.setLastname(input.nextLine());
         return author;
     }
-    public void printAuthors() {
+    @Override
+    public void printList() {
         if (authors.isEmpty()) {
             System.out.println(" --- Список авторов пуст --- ");
         } else {
@@ -37,8 +39,8 @@ public class AppHelperAuthorInput {
             System.out.println(" --- Конец списка --- ");
         }
     }
-
-    public List<Author> getAuthors() {
+    @Override
+    public List<Author> getList() {
         return authors;
     }
 }
